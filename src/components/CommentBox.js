@@ -1,20 +1,26 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import * as actions from "../actions";
 
 class CommentBox extends Component {
   state = { comment: "" };
-  handleChange = (e) => {
-    this.setState({ comment: e.target.value });
+
+  handleChange = (event) => {
+    this.setState({ comment: event.target.value });
   };
-  handleSumbit = (e) => {
-    e.preventDefault();
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+
+    this.props.saveComment(this.state.comment);
     this.setState({ comment: "" });
   };
 
   render() {
     return (
-      <form onSubmit={this.handleSumbit}>
+      <form onSubmit={this.handleSubmit}>
         <h4>Add a Comment</h4>
-        <textarea value={this.state.comment} onChange={this.handleChange} />
+        <textarea onChange={this.handleChange} value={this.state.comment} />
         <div>
           <button>Submit Comment</button>
         </div>
@@ -23,4 +29,4 @@ class CommentBox extends Component {
   }
 }
 
-export default CommentBox;
+export default connect(null, actions)(CommentBox);
